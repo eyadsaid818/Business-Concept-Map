@@ -111,6 +111,9 @@ svg.i { width: 1.1em; height: 1.1em; fill: none; stroke: currentColor; stroke-wi
 .notes-body b { color: var(--chalk); font-weight: 700; }
 .notes-body ul { padding-left: 1.1rem; display: grid; gap: 0.35rem; }
 .notes-body blockquote { color: var(--chalk); font-style: italic; padding-left: 0.9rem; border-left: 1px solid var(--c, var(--chalk)); }
+.notes-body h4 { margin-top: 0.4rem; margin-bottom: -0.4rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--c, var(--chalk-3)); }
+.notes-body i { color: var(--chalk); }
+.notes-body .eg { padding: 0.65rem 0.8rem; border: 1px dashed var(--rule-strong); border-radius: 4px; background: rgba(169, 190, 210, 0.06); font-size: 0.94rem; }
 .notes-body .chips { display: flex; flex-wrap: wrap; gap: 0.35rem 0.4rem; }
 .chip-s { font-size: 0.82rem; padding: 0.15rem 0.55rem; border: 1px solid var(--rule-strong); border-radius: 3px; color: var(--chalk); }
 .links { display: grid; padding-top: 0.75rem; border-top: 1px solid var(--rule); }
@@ -239,7 +242,7 @@ body:not(.tips-on) .key .tipkey { display: none; }
 </main>
 
 <script>
-/* ═══════════════ CONTENT (only from the supplied notes) ═══════════════ */
+/* ═══════════════ CONTENT (supplied notes, expanded with explanations and examples) ═══════════════ */
 const THEORY = {
   taylor:   { name: 'Taylor',   full: 'F.W. Taylor',   title: 'Scientific management', year: '1911', color: '#efa94a', css: 'var(--taylor)' },
   maslow:   { name: 'Maslow',   full: 'A. Maslow',     title: 'Hierarchy of needs',   year: '1943', color: '#ff806a', css: 'var(--maslow)' },
@@ -249,24 +252,39 @@ const THEORY = {
 const LEVELS = [
   { n: 1, id: 'm1', name: 'Physiological needs', aka: 'basic needs', s: 'Survival', order: 'Lower-order',
     def: 'The requirements for human survival: the combination of people’s physical and biological needs, irrespective of age, race, social-economic status, and other factors. These are the essential things all human beings must have in order to survive, such as food, clothing and shelter. They are so significant that they must be met first.',
-    work: 'Improved financial reward systems and working conditions can help people to meet these basic needs.',
+    why: 'Someone who cannot afford rent or food will not care much about team-building days or a new job title. Until survival is secure, almost all of their energy goes into meeting it, so this is the base of the pyramid.',
+    work: 'Improved financial reward systems and working conditions can help people to meet these basic needs. In practice this means paying at least a living wage, giving proper breaks, and providing clean water, toilets, heating or cooling, and somewhere to eat.',
+    eg: 'A garment factory that raises pay above the minimum wage and provides free meals on long shifts is meeting physiological needs. Staff are less likely to leave for a job paying slightly more elsewhere.',
+    ev: 'This is where Maslow overlaps with Taylor: pay matters most at this level. Once wages comfortably cover basic needs, more money tends to motivate less, because the need is already met.',
     ex: ['Basic necessities', 'Biological needs', 'Pay', 'Survival'] },
   { n: 2, id: 'm2', name: 'Safety needs', aka: 'security needs', s: 'Security', order: 'Lower-order',
-    def: 'The requirements that make people feel safe, such as job security.',
-    work: 'In a business context, this means the assurance given to employees that they will keep their current job for the foreseeable future. Job security depends on a worker’s performance, the financial success of the business, employment legislation and the current economic climate. Firms can address safety needs, to some extent, by using contracts of employment.',
+    def: 'The requirements that make people feel safe, such as job security. This covers physical safety (a safe place to work) as well as financial and emotional security (knowing the income will still be there next month).',
+    why: 'Uncertainty is stressful. A worker who fears being laid off spends energy on worry and job-hunting instead of on the job, and may avoid taking risks or suggesting ideas.',
+    work: 'In a business context, this means the assurance given to employees that they will keep their current job for the foreseeable future. Job security depends on a worker’s performance, the financial success of the business, employment legislation and the current economic climate. Firms can address safety needs, to some extent, by using contracts of employment. Other ways include permanent rather than zero-hours contracts, pension schemes, sick pay, health insurance, and good health and safety practice.',
+    eg: 'During a recession, a firm that communicates openly and offers reduced hours instead of redundancies helps staff feel secure. A construction company that invests in safety equipment and training meets the physical side of this need.',
+    ev: 'The gig economy (e.g. delivery riders on flexible contracts) is a weak spot here: workers may have freedom but little security, which can limit motivation and loyalty.',
     ex: ['Job security', 'Predictability', 'Stability', 'Steady job'] },
   { n: 3, id: 'm3', name: 'Social needs', aka: 'love and belonging needs', s: 'Social', order: 'Lower-order',
-    def: 'The requirements about being accepted by others.',
-    work: 'In the workplace, social needs can be met by creating opportunities for team working and having social facilities or functions. A mentoring or coaching system can also help to improve working relationships.',
+    def: 'The requirements about being accepted by others: friendship, belonging to a group, and feeling part of something bigger than oneself.',
+    why: 'People spend a large part of their waking hours at work. If they feel isolated or left out, they become disengaged, and absenteeism and staff turnover tend to rise.',
+    work: 'In the workplace, social needs can be met by creating opportunities for team working and having social facilities or functions. A mentoring or coaching system can also help to improve working relationships. Good communication, inclusive team culture and well-run induction for new starters all help.',
+    eg: 'A tech company that runs team lunches, buddy systems for new hires and cross-department projects is meeting social needs. With remote working, firms often use regular video check-ins and in-person meet-ups to keep this sense of belonging.',
+    ev: 'Links to Herzberg: relationships with colleagues and management are hygiene factors. Getting them wrong causes dissatisfaction, but good relationships alone may not create deep motivation.',
     ex: ['Acceptance', 'Affection', 'Fitting in', 'Friendship', 'Group identity'] },
   { n: 4, id: 'm4', name: 'Esteem needs', aka: null, s: 'Self-esteem', order: 'Higher-order',
     def: 'The desire of people to feel respected, having value and having self-respect. Intrinsically, self-esteem exists when people are able to feel good about themselves, as they feel valued by others.',
-    work: 'Extrinsically, esteem needs can be met by genuine recognition, acknowledgement, trust and respect from others.',
+    why: 'This is the first of the higher-order needs. Once people feel secure and accepted, they want to feel that what they do matters and that others notice it.',
+    work: 'Extrinsically, esteem needs can be met by genuine recognition, acknowledgement, trust and respect from others. Businesses can use praise, job titles, promotion, awards, delegated responsibility and training that builds confidence.',
+    eg: 'A retailer’s “employee of the month” scheme, or a manager publicly thanking a team for hitting a deadline, meets external esteem needs. Being trusted to lead a project meets internal esteem needs.',
+    ev: 'Recognition must be genuine. Token awards handed out without meaning can feel patronising and backfire.',
     quote: ['Outstanding leaders go out of their way to boost the self-esteem of their personnel. If people believe in themselves, it’s amazing what they can accomplish.', 'Sam Walton (1918–1992), founder of Walmart'],
     ex: ['Achievement', 'Reputation', 'Respect', 'Responsibilities', 'Status'] },
   { n: 5, id: 'm5', name: 'Self-actualization', aka: null, s: 'Self-actualization', order: 'Higher-order',
     def: 'Occurs when people become the very best that they can be, fulfilling their full potential. In Maslow’s words, “What a man can be, he must be” and “to become everything that one is capable of becoming.”',
-    work: 'Being the highest level in the hierarchy, self-actualization exists when a person is able to fulfil their true potential.',
+    why: 'Unlike the lower levels, this need is never fully “used up”. The more people grow, the more they want to grow, so it can keep motivating over a whole career.',
+    work: 'Being the highest level in the hierarchy, self-actualization exists when a person is able to fulfil their true potential. Firms can support it with challenging work, creative freedom, chances to learn new skills, career development and sponsored further study.',
+    eg: 'Google’s former “20% time”, which let engineers spend part of the week on their own projects, is often given as an example. Gmail is said to have started this way.',
+    ev: 'It is hard to measure, and it differs hugely from person to person. For most people it is probably unrealistic to ever fully reach it.',
     quote: ['When you love what you do, you’ll never have to work a day in your life.', 'Steve Ackerie, American entrepreneur'],
     ex: ['Accomplishment', 'Develop fully', 'Fulfil potential', 'Personal growth'] }
 ];
@@ -276,81 +294,179 @@ const MOTIVATORS = ['Achievement', 'Advancement', 'Challenging work', 'Decision 
 
 const levelBody = (L) => `
   <p>${L.aka ? `Also known as <b>${L.aka}</b>. ` : ''}<b>${L.order} need.</b></p>
-  <p>${L.def}</p><p>${L.work}</p>
+  <h4>What it means</h4><p>${L.def}</p>
+  <h4>Why it matters</h4><p>${L.why}</p>
+  <h4>In the workplace</h4><p>${L.work}</p>
+  <div class="eg"><b>Example.</b> ${L.eg}</div>
   ${L.quote ? `<blockquote>“${L.quote[0]}” <br><span style="font-style:normal;color:var(--chalk-3);font-size:.85rem">${L.quote[1]}</span></blockquote>` : ''}
+  <h4>Evaluation</h4><p>${L.ev}</p>
   <div class="chips">${L.ex.map(e => `<span class="chip-s">${e}</span>`).join('')}</div>`;
 
 /* Concept map nodes. pos = [x, y, z] in scene units. */
 const NODES = [
   { id: 'core', kind: 'core', label: 'Motivation', sub: 'Theories in HR, Unit 2.4', pos: [0, 7.5, 0], section: 'summary',
-    body: `<p>The IB Business Management syllabus covers three motivation theories in HR. Each gives a different answer to what motivates people at work.</p>
-      <ul><li><b>Taylor</b> (1911): financial incentives, efficiency and control.</li><li><b>Maslow</b> (1943): a hierarchy of five needs.</li><li><b>Herzberg</b> (1959): hygiene factors and motivators.</li></ul>` },
+    body: `<p><b>Motivation</b> is the internal and external drive that makes people want to do a job, and to do it well. Motivated workers tend to be more productive, take less time off and are less likely to leave, which cuts recruitment and training costs.</p>
+      <p>The IB Business Management syllabus covers three motivation theories in HR. Each gives a different answer to what motivates people at work.</p>
+      <ul><li><b>Taylor</b> (1911): financial incentives, efficiency and control. People work mainly for money.</li><li><b>Maslow</b> (1943): a hierarchy of five needs. People are motivated by whatever need is next unmet.</li><li><b>Herzberg</b> (1959): hygiene factors and motivators. Removing dissatisfaction is not the same as creating satisfaction.</li></ul>
+      <h4>How they fit together</h4>
+      <p>Read them as a timeline. Taylor sees workers as economic beings; Maslow and Herzberg add psychological needs. The dashed lines on the map show where they agree (lower needs ≈ hygiene factors, higher needs ≈ motivators) and where they clash (on pay).</p>` },
 
   { id: 'taylor', kind: 'theory', theory: 'taylor', label: 'Taylor', sub: 'Scientific management, 1911', pos: [-9.6, 0.6, 0.5], section: 'taylor',
     body: `<p>Frederick Winslow Taylor (1856–1917) was an American engineer and management consultant who aimed to make efficiency gains and raise productivity levels. He is often regarded as the father of motivation theory.</p>
-      <p>In <i>The Principles of Scientific Management</i> (1911) he argued for a <b>command and control</b> approach, and that the main reason people work is <b>money</b>.</p>` },
+      <p>In <i>The Principles of Scientific Management</i> (1911) he argued for a <b>command and control</b> approach, and that the main reason people work is <b>money</b>.</p>
+      <h4>The big idea</h4>
+      <p>There is “one best way” to do any job, and it can be found scientifically by observing and timing workers (time-and-motion study). Managers plan the work; workers carry it out exactly as designed; pay is tied to output.</p>
+      <div class="eg"><b>Example.</b> At Bethlehem Steel, Taylor studied workers loading pig iron onto rail cars. By redesigning the method, adding planned rest and paying more for higher output, he reported that one worker’s daily load rose from about 12.5 to 47.5 tons.</div>
+      <h4>Where you see it today</h4>
+      <p>Fast-food kitchens, assembly lines (Henry Ford was heavily influenced by Taylor), call centres with scripts and call-time targets, and warehouse pickers tracked by handheld scanners.</p>` },
   { id: 't-sci', kind: 'idea', theory: 'taylor', label: 'Measure, monitor, control', pos: [-13.0, 3.0, -0.6], section: 'taylor',
     body: `<p>Taylor believed in measuring, monitoring and controlling efficiency and productivity levels in the workplace.</p>
-      <p>He studied tasks systematically, breaking them into smaller steps to find the most efficient method. His principles stress a clear <b>division of labour</b>, assigning tasks based on workers’ skills to raise productivity and job satisfaction.</p>
-      <p>The approach focused on standardized tasks and strict management control.</p>` },
+      <h4>How it works</h4>
+      <ul><li><b>Observe and time</b> workers doing a task to find wasted movements.</li>
+      <li><b>Break the task down</b> into small, simple, repeatable steps.</li>
+      <li><b>Standardize</b> the best method, tools and timings.</li>
+      <li><b>Select and train</b> the right workers for each step (a clear <b>division of labour</b>).</li>
+      <li><b>Monitor output</b> and reward those who meet targets.</li></ul>
+      <p>Assigning tasks based on workers’ skills was meant to raise both productivity and job satisfaction. The approach focused on standardized tasks and strict management control.</p>
+      <div class="eg"><b>Example.</b> McDonald’s sets exact cooking times, portion sizes and step-by-step procedures so a burger is made the same way in every restaurant, by staff who can be trained quickly.</div>
+      <p><b>Downside:</b> highly repetitive jobs can become boring, leading to low morale. This is the opposite of what Herzberg calls job enrichment.</p>` },
   { id: 't-cmd', kind: 'idea', theory: 'taylor', label: 'Command and control', pos: [-13.7, -0.9, 0.6], section: 'taylor',
     body: `<blockquote>Entrepreneurs “do not want any initiative” but “them to obey the orders we give.”</blockquote>
       <p>Managers and business owners only sought <b>obedience</b> from their workers, who follow the orders given to them.</p>
-      <p>Workers are seen as tools for efficiency rather than individuals with diverse needs.</p>` },
+      <h4>What this means</h4>
+      <p>Thinking and planning are done by managers; doing is done by workers. Communication flows top-down, decisions are centralized, and workers are given little or no say in how they work.</p>
+      <p>Workers are seen as tools for efficiency rather than individuals with diverse needs.</p>
+      <h4>When it can work</h4>
+      <p>Where tasks are simple and mistakes are costly or dangerous (e.g. following safety procedures on an oil rig), or with a new, unskilled workforce that needs clear direction.</p>
+      <h4>When it fails</h4>
+      <p>In creative, knowledge-based or service jobs where staff need to think for themselves. It ignores Maslow’s esteem and self-actualization needs and Herzberg’s motivators such as responsibility and decision making.</p>` },
   { id: 't-pay', kind: 'idea', theory: 'taylor', label: 'Differentiated piece rate', pos: [-6.9, -2.7, 1.4], section: 'taylor',
     body: `<blockquote>“What the workmen want from employers beyond anything else is higher wages.”</blockquote>
       <p>There should be a higher financial reward for more hard-working and productive workers. Differentiated piece rate (differentiated compensation) rewards those who meet or exceed targets.</p>
-      <p><b>Example:</b> up to 100 units are paid at $3 per unit, rising to $4 per unit for each item made above 100 units.</p>` },
+      <h4>Worked example</h4>
+      <p>Up to 100 units are paid at $3 per unit, rising to $4 per unit for each item made above 100 units.</p>
+      <ul><li>Worker A makes 90 units: 90 × $3 = <b>$270</b>.</li>
+      <li>Worker B makes 120 units: (100 × $3) + (20 × $4) = $300 + $80 = <b>$380</b>.</li></ul>
+      <p>Worker B makes 33% more units but earns about 41% more pay, so the extra effort is rewarded more than proportionally.</p>
+      <h4>Evaluation</h4>
+      <ul><li><b>For:</b> clear link between effort and reward; easy to measure; encourages higher output.</li>
+      <li><b>Against:</b> workers may rush and quality can suffer; only works where output can be counted (hard for a nurse or teacher); can create rivalry rather than teamwork.</li></ul>` },
   { id: 't-rest', kind: 'idea', theory: 'taylor', label: 'Rest breaks', pos: [-11.6, -3.7, 1.6], section: 'taylor',
     body: `<p>Scientific management does not only encourage people to work hard. Taylor introduced rest breaks so workers could recover from exhaustion, which would otherwise reduce productivity.</p>
-      <p>Beyond money, Taylor emphasized management’s role in training, supporting workers, and improving working conditions. He is credited with significant improvements in health and safety.</p>` },
+      <h4>Why breaks raise output</h4>
+      <p>A tired worker slows down and makes more mistakes. Short, planned rests mean more total output across a full shift than working non-stop. Taylor treated fatigue as a problem to be measured and managed, just like wasted movement.</p>
+      <p>Beyond money, Taylor emphasized management’s role in training, supporting workers, and improving working conditions. He is credited with significant improvements in health and safety.</p>
+      <p><b>Link:</b> rest breaks and safe conditions also meet Maslow’s physiological and safety needs, and are hygiene factors for Herzberg.</p>` },
   { id: 't-lim', kind: 'idea', theory: 'taylor', label: 'Limitations', pos: [-6.7, 3.3, -0.8], section: 'taylor',
-    body: `<ul><li>Rather authoritarian, and perhaps less suitable in modern businesses of the 21st century.</li>
-      <li>Maslow and Herzberg felt there is far more to motivation than money. People are not motivated in the same way, so differentiated piece rates do not suit all individuals or organizations.</li>
-      <li>Qualitative factors affecting motivation are largely ignored; limited in addressing non-financial motivators.</li></ul>` },
+    body: `<ul><li><b>Authoritarian.</b> Rather authoritarian, and perhaps less suitable in modern businesses of the 21st century, where many jobs need creativity, problem-solving and teamwork.</li>
+      <li><b>Money is not everything.</b> Maslow and Herzberg felt there is far more to motivation than money. People are not motivated in the same way, so differentiated piece rates do not suit all individuals or organizations.</li>
+      <li><b>Ignores qualitative factors.</b> Qualitative factors affecting motivation are largely ignored; limited in addressing non-financial motivators such as recognition, belonging and purpose.</li>
+      <li><b>Boredom and alienation.</b> Repetitive, deskilled jobs can lower morale, raising absenteeism and staff turnover.</li>
+      <li><b>Hard to measure some jobs.</b> Output-based pay suits factories, not services such as teaching, healthcare or design.</li></ul>
+      <h4>But still relevant</h4>
+      <p>Its ideas on efficiency, standard procedures, training and performance-related pay are still widely used, for example sales commission and bonuses tied to targets.</p>` },
 
   { id: 'maslow', kind: 'theory', theory: 'maslow', label: 'Maslow', sub: 'Hierarchy of needs, 1943', pos: [0, 3.05, -2], labelAt: 'left', section: 'maslow',
     body: `<p>Abraham Maslow (1908–1970) was an American social psychologist. His hierarchy of needs explains how people are motivated by different levels of needs.</p>
-      <p>Needs are people’s unfulfilled physiological and/or psychological desires. Only when one level is met can the next level be addressed, and a need that is satisfied no longer motivates.</p>` },
+      <p>Needs are people’s unfulfilled physiological and/or psychological desires. Only when one level is met can the next level be addressed, and a need that is satisfied no longer motivates.</p>
+      <h4>Reading the pyramid</h4>
+      <p>Start at the base and work up: <b>physiological → safety → social → esteem → self-actualization</b>. The wide base shows that everyone needs the lower levels; fewer people reach the top. Select each tier on the pyramid to read about it.</p>
+      <h4>What it means for managers</h4>
+      <p>Find out which level each worker is at, then offer what meets their <i>next</i> need. Offering a promotion to someone worried about losing their job, or more pay to someone already well paid and bored, is unlikely to work.</p>
+      <div class="eg"><b>Example.</b> A young graduate on a low salary may be most motivated by pay and job security. An experienced, well-paid manager may be more motivated by a challenging new project or a seat on the board.</div>` },
   ...LEVELS.map(L => ({ id: L.id, kind: 'level', theory: 'maslow', level: L.n, label: L.name, section: 'maslow', body: levelBody(L) })),
   { id: 'm-lower', kind: 'idea', theory: 'maslow', label: 'Lower-order needs', sub: 'deficiency needs', pos: [4.6, -1.75, -2], section: 'maslow',
-    body: `<p>Physiological, safety, and social (love and belonging) needs. These must be met to <b>prevent dissatisfaction</b> or unhappiness, for example food and job security.</p>` },
+    body: `<p>Physiological, safety, and social (love and belonging) needs. These must be met to <b>prevent dissatisfaction</b> or unhappiness, for example food and job security.</p>
+      <h4>Why “deficiency” needs?</h4>
+      <p>They motivate because something is <i>missing</i>. Once the gap is filled (enough pay, a secure contract, friendly colleagues) the need stops driving behaviour, but if it is taken away, people quickly become unhappy again.</p>
+      <h4>How businesses meet them</h4>
+      <p>Mostly through extrinsic, often financial, means: fair pay, safe conditions, contracts, pensions, team working and social events.</p>
+      <p><b>Link:</b> these match closely with Herzberg’s hygiene factors. Both theories say these things stop people being unhappy rather than making them truly motivated.</p>` },
   { id: 'm-higher', kind: 'idea', theory: 'maslow', label: 'Higher-order needs', sub: 'growth needs', pos: [4.6, 1.1, -2], section: 'maslow',
-    body: `<p>Esteem and self-actualization needs. Meeting them helps provide a genuine sense of being complete, contented and overjoyed. They provide <b>deeper motivation</b>, for example recognition and personal growth.</p>` },
+    body: `<p>Esteem and self-actualization needs. Meeting them helps provide a genuine sense of being complete, contented and overjoyed. They provide <b>deeper motivation</b>, for example recognition and personal growth.</p>
+      <h4>Why “growth” needs?</h4>
+      <p>They are not about filling a gap but about becoming more. Instead of fading once met, they tend to keep pulling people forward, which makes them a long-lasting source of motivation.</p>
+      <h4>How businesses meet them</h4>
+      <p>Mostly non-financial, intrinsic means: recognition, responsibility, promotion, empowerment, job enrichment, training and career development.</p>
+      <p><b>Link:</b> these match closely with Herzberg’s motivators, which also come from the nature of the work itself.</p>` },
   { id: 'm-crit', kind: 'idea', theory: 'maslow', label: 'Criticisms', pos: [-4.5, 0.3, -2], section: 'maslow',
-    body: `<ul><li>People are not necessarily motivated in the same way, so the levels do not apply to everyone in all contexts.</li>
-      <li>Not everyone is motivated by promotion, even though it is linked to esteem needs. Some people prefer to work alone rather than in a team.</li>
-      <li>For most people it is probably unrealistic to ever reach self-actualization.</li></ul>` },
+    body: `<ul><li><b>Not universal.</b> People are not necessarily motivated in the same way, so the levels do not apply to everyone in all contexts. Culture matters: in more collectivist societies, social needs may rank above esteem.</li>
+      <li><b>Not everyone wants the same things.</b> Not everyone is motivated by promotion, even though it is linked to esteem needs. Some people prefer to work alone rather than in a team.</li>
+      <li><b>The top is rarely reached.</b> For most people it is probably unrealistic to ever reach self-actualization.</li>
+      <li><b>Levels overlap.</b> In real life people chase several needs at once. An artist might pursue self-actualization while still struggling to pay rent.</li>
+      <li><b>Hard to test.</b> Needs are difficult to measure, and it is hard for managers to know which level each worker has reached.</li></ul>
+      <h4>Strength</h4>
+      <p>Simple, intuitive and easy for managers to apply. It was one of the first theories to show that people work for more than money.</p>` },
 
   { id: 'herzberg', kind: 'theory', theory: 'herzberg', label: 'Herzberg', sub: 'Two-factor theory, 1959', pos: [9.6, 0.6, 0.5], section: 'herzberg',
     body: `<p>Professor Frederick Herzberg (1923–2000) was an American psychologist. In <i>Work and Nature of Man</i> (1966) he argued that to create any motivation, it was essential to <b>first remove the factors that cause dissatisfaction</b>.</p>
-      <p>Factors split into two categories: <b>hygiene factors</b> and <b>motivators</b>.</p>` },
+      <p>Factors split into two categories: <b>hygiene factors</b> and <b>motivators</b>.</p>
+      <h4>Where it came from</h4>
+      <p>Herzberg interviewed around 200 engineers and accountants, asking when they felt especially good or bad about their jobs. The things that made them unhappy (pay, policy, supervision) were different from the things that made them happy (achievement, recognition, the work itself).</p>
+      <h4>The key insight</h4>
+      <p>Satisfaction and dissatisfaction are not opposite ends of one scale. The opposite of “dissatisfied” is “not dissatisfied”, not “motivated”. A firm needs to do both: fix hygiene factors <i>and</i> provide motivators.</p>
+      <h4>What managers do with it</h4>
+      <ul><li><b>Job enrichment:</b> giving more responsibility and more challenging tasks.</li>
+      <li><b>Job enlargement:</b> widening the range of tasks in a job.</li>
+      <li><b>Empowerment:</b> letting workers make decisions about their own work.</li></ul>` },
   { id: 'h-hyg', kind: 'idea', theory: 'herzberg', label: 'Hygiene factors', sub: 'maintenance factors', pos: [7.7, -3.4, 1.4], section: 'herzberg',
     body: `<p>Also called maintenance factors or job dissatisfiers. These are lower-level needs, met in order to meet physiological needs.</p>
       <p>Improving them simply <b>prevents dissatisfaction</b> but does not boost morale or motivation. The working environment is a hygiene factor that must be addressed to prevent dissatisfaction.</p>
+      <h4>Why “hygiene”?</h4>
+      <p>Like cleaning your teeth: it does not make you healthier than normal, but if you stop, problems start. People expect these things; they only get noticed when they go wrong.</p>
+      <div class="eg"><b>Example.</b> A new, air-conditioned office will not make staff work harder in the long run. But a broken air conditioner in a heatwave will quickly cause complaints and lower productivity.</div>
       <div class="chips">${HYGIENE.map(e => `<span class="chip-s">${e}</span>`).join('')}</div>` },
   { id: 'h-mot', kind: 'idea', theory: 'herzberg', label: 'Motivators', sub: 'growth factors', pos: [7.5, 3.4, -0.8], section: 'herzberg',
     body: `<blockquote>Motivation is “the will to work, due to enjoyment of the work itself”.</blockquote>
       <p>Also called growth factors. These are higher-level needs, met in order to meet psychological needs. They lead to <b>job satisfaction and psychological growth</b>.</p>
+      <h4>How they differ from hygiene factors</h4>
+      <p>Motivators are <b>intrinsic</b>: they come from the job itself, not from things around it. They do not cause unhappiness when missing, but when present they create genuine, lasting motivation.</p>
+      <div class="eg"><b>Example.</b> A junior designer trusted to lead a client pitch, then publicly credited when the firm wins the contract, experiences responsibility, achievement and recognition all at once.</div>
       <div class="chips">${MOTIVATORS.map(e => `<span class="chip-s">${e}</span>`).join('')}</div>` },
   { id: 'h-pay', kind: 'idea', theory: 'herzberg', label: 'Pay is a hygiene factor', pos: [11.8, -3.7, 1.6], section: 'herzberg',
     body: `<p>Herzberg considered wages and salaries to be hygiene factors, because all workers expect pay for their input in the production process.</p>
-      <p>Unlike Taylor, he suggested that satisfaction does not come from extrinsic factors such as pay, because these become the norm as an expectation. It takes more than wages and salaries to keep workers satisfied.</p>` },
+      <p>Unlike Taylor, he suggested that satisfaction does not come from extrinsic factors such as pay, because these become the norm as an expectation. It takes more than wages and salaries to keep workers satisfied.</p>
+      <h4>In practice</h4>
+      <p>A pay rise feels good at first, but within months it becomes the new normal. Pay that is <i>too low</i> or <i>unfair</i> compared with colleagues, though, will quickly cause dissatisfaction.</p>
+      <h4>Taylor vs Herzberg</h4>
+      <ul><li><b>Taylor:</b> money is the main motivator, so pay more for more output.</li>
+      <li><b>Herzberg:</b> money only prevents unhappiness; real motivation comes from the job itself.</li></ul>
+      <p>A strong answer weighs both: pay matters a lot for low-paid workers (Taylor, Maslow’s lower levels), less so once it is fair and adequate (Herzberg).</p>` },
   { id: 'h-work', kind: 'idea', theory: 'herzberg', label: 'The work itself', pos: [13.1, 3.0, -0.6], section: 'herzberg',
     body: `<p>The work itself (the nature of the job) provides workers with opportunities for psychological growth.</p>
-      <p>Motivation occurs by enhancing motivators, such as recognition, responsibilities, and opportunities for personal advancement. Jobs should be designed to include opportunities for advancement, responsibility, and achievement.</p>` },
+      <p>Motivation occurs by enhancing motivators, such as recognition, responsibilities, and opportunities for personal advancement. Jobs should be designed to include opportunities for advancement, responsibility, and achievement.</p>
+      <h4>Designing motivating jobs</h4>
+      <ul><li><b>Job enrichment:</b> adding more demanding tasks and responsibility (vertical loading).</li>
+      <li><b>Job enlargement:</b> adding more tasks at the same level (horizontal loading).</li>
+      <li><b>Job rotation:</b> moving workers between jobs to build skills and reduce boredom.</li>
+      <li><b>Empowerment:</b> giving workers authority to make decisions.</li></ul>
+      <div class="eg"><b>Example.</b> Rather than one worker only fitting screws all day (a Taylor-style job), a team builds a whole product, checks its own quality and suggests improvements.</div>
+      <p><b>Limitation:</b> not every job can be enriched, and some workers prefer simple, predictable tasks.</p>` },
 
   { id: 'tip-auto', kind: 'tip', tip: true, theory: 'taylor', label: 'Autocratic leadership', sub: 'Unit 2.3', pos: [-14.8, -4.5, 0.8], section: 'taylor',
-    body: `<p><b>Top tip 1.</b> Make links between topics in the syllabus. F.W. Taylor’s theory of scientific management (Unit 2.4) works best under an autocratic leadership style (Unit 2.3).</p>` },
+    body: `<p><b>Top tip 1.</b> Make links between topics in the syllabus. F.W. Taylor’s theory of scientific management (Unit 2.4) works best under an autocratic leadership style (Unit 2.3).</p>
+      <h4>Why they fit</h4>
+      <p>Autocratic leaders make decisions alone and expect instructions to be followed, which is exactly Taylor’s command and control approach.</p>
+      <h4>Other links worth making</h4>
+      <ul><li><b>Maslow and Herzberg</b> fit better with <b>democratic</b> or <b>paternalistic</b> leadership, which involve or care for workers.</li>
+      <li>Differentiated piece rate links to <b>financial rewards</b> (Unit 2.4: piece rate, commission, performance-related pay).</li>
+      <li>Job enrichment links to <b>organizational structure</b> (Unit 2.2): flatter structures and delegation.</li></ul>` },
   { id: 'tip-mistake', kind: 'tip', tip: true, theory: 'taylor', label: 'Common mistake', pos: [-9.9, 5.0, -1.2], section: 'taylor',
     body: `<p>Many students assume Taylor’s theory is simply that “money motivates.” This is an overly simplistic view.</p>
-      <p>Taylor’s theory is about improving workplace efficiency and productivity through scientific management: breaking tasks into smaller steps, a clear division of labour, and management’s role in training, supporting workers, and improving working conditions.</p>` },
+      <p>Taylor’s theory is about improving workplace efficiency and productivity through scientific management: breaking tasks into smaller steps, a clear division of labour, and management’s role in training, supporting workers, and improving working conditions.</p>
+      <h4>How to write it better</h4>
+      <p><i>Weak:</i> “Taylor said workers are motivated by money.”</p>
+      <p><i>Stronger:</i> “Taylor believed productivity rises when work is scientifically designed and managers control the method, with pay linked to output through differentiated piece rates to reward efficient workers.”</p>` },
   { id: 'tip-5s', kind: 'tip', tip: true, theory: 'maslow', label: 'The 5S model', pos: [-4.6, 5.5, -1.8], section: 'maslow',
     body: `<p><b>Top tip 3.</b> All the levels can be remembered with the letter S: <b>Survival</b>, <b>Security</b>, <b>Social</b>, <b>Self-esteem</b> and <b>Self-actualization</b>.</p>
+      <h4>Using it in an exam</h4>
+      <p>List the five S’s from the bottom up, then for each one give one way the business in the case study could meet it. This turns a memory trick into an applied answer.</p>
       <p style="font-size:.85rem;color:var(--chalk-3)">Source: Business Management for the IB Diploma, IBID Press, 5th edn</p>` },
   { id: 'tip-esteem', kind: 'tip', tip: true, theory: 'maslow', label: 'Internal vs external esteem', pos: [4.1, 4.45, -2], section: 'maslow',
     body: `<p><b>Top tip 2.</b> <b>Internal</b> esteem needs: achievement and self-confidence, e.g. meeting or exceeding personal goals at work.</p>
-      <p><b>External</b> esteem needs: respect and recognition from others, e.g. job titles, praise, “employee of the month” schemes, training, and promotions.</p>` }
+      <p><b>External</b> esteem needs: respect and recognition from others, e.g. job titles, praise, “employee of the month” schemes, training, and promotions.</p>
+      <h4>Why the split matters</h4>
+      <p>A business can directly provide external esteem (it controls titles and awards) but can only create the conditions for internal esteem, for example by setting achievable but stretching targets. Mentioning both shows deeper understanding.</p>` }
 ];
 
 /* type: 'tree' (part of a theory), 'cross' (link between theories), 'tip', 'hidden' (logical only) */
